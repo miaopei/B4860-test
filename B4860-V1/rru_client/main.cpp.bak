@@ -1,0 +1,69 @@
+/*************************************************************************
+	> File Name: main.cpp
+	> Author: miaopei
+	> Mail: miaopei@baicells.com 
+	> Created Time: 2020年02月12日 星期三 11时16分50秒
+ ************************************************************************/
+
+#include <iostream>
+#include <thread>
+#include <memory>
+#include <mutex>
+#include <condition_variable>
+#include <cstdio>
+#include <cstring>
+
+#include "rru_client.h"
+
+using namespace uv;
+
+int main(int argc, char* argv[])
+{
+    EventLoop* loop = new EventLoop();
+
+    //uv::GlobalConfig::BufferModeStatus = uv::GlobalConfig::CycleBuffer;
+
+    SocketAddr addr("127.0.0.1", 8886, SocketAddr::Ipv4);
+    Client client(loop);
+
+#if 1
+    client.setConnectStatusCallback(
+        [&client](uv::TcpClient::ConnectStatus status)
+    {
+        if(status == uv::TcpClient::ConnectStatus::OnConnectSuccess)
+        {
+            while(1)
+            {
+                int c, i = 0;
+                char msg[100] = {};
+
+                std::cout << "RRU Client msg: ";
+                do {
+                    c = getchar();
+                    msg[i] = c;
+                    i++;
+                } while (c != '\n');
+
+                msg[i] = '\0';
+                char data[1024] = "RRU Client send msg: ";
+                strcat(data, msg);
+       
+                uv::Packet packet;
+                packet.pack(data, sizeof(data));
+
+                //client.write(data, sizeof(data));
+                client.write(packet.Buffer().c_str(), packet.PacketSize());
+            }
+        } else {
+            std::cout << "Error: RRU Client connect to server fail" << std::endl;
+        }
+    });
+#endif
+
+    client.connectToServer(addr);
+
+    loop->run();
+
+    return 0;
+}
+

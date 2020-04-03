@@ -1,0 +1,13 @@
+---- getConnnection Matches (12 in 4 files) ----
+TcpServer.cpp (rpc-bbu\src) line 90 : shared_ptr<TcpConnection> TcpServer::getConnnection(string& name)
+TcpServer::closeConnection in TcpServer.cpp (rpc-bbu\src) :     auto connection = getConnnection(name);
+TcpServer::closeConnection in TcpServer.cpp (rpc-bbu\src) :             auto connection = getConnnection(name);
+TcpServer::write in TcpServer.cpp (rpc-bbu\src) :     auto connection = getConnnection(name);
+TcpServer::writeInLoop in TcpServer.cpp (rpc-bbu\src) :     auto connection = getConnnection(name);
+TcpServer.cpp (src) line 93 : shared_ptr<TcpConnection> TcpServer::getConnnection(string& name)
+TcpServer::closeConnection in TcpServer.cpp (src) :     auto connection = getConnnection(name);
+TcpServer::closeConnection in TcpServer.cpp (src) :             auto connection = getConnnection(name);
+TcpServer::write in TcpServer.cpp (src) :     auto connection = getConnnection(name);
+TcpServer::writeInLoop in TcpServer.cpp (src) :     auto connection = getConnnection(name);
+uv::TcpServer in TcpServer.h (rpc-bbu\src\include) :     TcpConnectionPtr getConnnection(std::string& name);
+uv::TcpServer in TcpServer.h (src\include) :     TcpConnectionPtr getConnnection(std::string& name);
